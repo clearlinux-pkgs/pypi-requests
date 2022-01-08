@@ -19,6 +19,7 @@ BuildRequires : buildreq-distutils3
 BuildRequires : charset-normalizer
 BuildRequires : pypi(certifi)
 BuildRequires : pypi(urllib3)
+Provides: requests
 
 %description
 **Requests** is a simple, yet elegant, HTTP library.
