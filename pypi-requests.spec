@@ -4,7 +4,7 @@
 #
 Name     : pypi-requests
 Version  : 2.27.0
-Release  : 107
+Release  : 108
 URL      : https://files.pythonhosted.org/packages/c0/e3/826e27b942352a74b656e8f58b4dc7ed9495ce2d4eeb498181167c615303/requests-2.27.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/c0/e3/826e27b942352a74b656e8f58b4dc7ed9495ce2d4eeb498181167c615303/requests-2.27.0.tar.gz
 Summary  : Python HTTP for Humans.
@@ -13,12 +13,9 @@ License  : Apache-2.0
 Requires: pypi-requests-license = %{version}-%{release}
 Requires: pypi-requests-python = %{version}-%{release}
 Requires: pypi-requests-python3 = %{version}-%{release}
-Requires: charset-normalizer
-Requires: urllib3
+Requires: pypi(charset_normalizer)
+Requires: pypi(urllib3)
 BuildRequires : buildreq-distutils3
-Provides: requests
-Provides: requests-python
-Provides: requests-python3
 BuildRequires : charset-normalizer
 BuildRequires : pypi(certifi)
 BuildRequires : pypi(urllib3)
@@ -69,7 +66,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1641489331
+export SOURCE_DATE_EPOCH=1641604234
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
