@@ -4,7 +4,7 @@
 #
 Name     : pypi-requests
 Version  : 2.27.1
-Release  : 110
+Release  : 111
 URL      : https://files.pythonhosted.org/packages/60/f3/26ff3767f099b73e0efa138a9998da67890793bfa475d8278f84a30fec77/requests-2.27.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/60/f3/26ff3767f099b73e0efa138a9998da67890793bfa475d8278f84a30fec77/requests-2.27.1.tar.gz
 Summary  : Python HTTP for Humans.
@@ -16,8 +16,8 @@ Requires: pypi-requests-python3 = %{version}-%{release}
 Requires: pypi(charset_normalizer)
 Requires: pypi(urllib3)
 BuildRequires : buildreq-distutils3
-BuildRequires : charset-normalizer
 BuildRequires : pypi(certifi)
+BuildRequires : pypi(charset_normalizer)
 BuildRequires : pypi(urllib3)
 
 %description
@@ -66,7 +66,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1641942084
+export SOURCE_DATE_EPOCH=1642004639
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
