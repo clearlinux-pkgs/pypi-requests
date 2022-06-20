@@ -4,7 +4,7 @@
 #
 Name     : pypi-requests
 Version  : 2.28.0
-Release  : 112
+Release  : 113
 URL      : https://files.pythonhosted.org/packages/e9/23/384d9953bb968731212dc37af87cb75a885dc48e0615bd6a303577c4dc4b/requests-2.28.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/e9/23/384d9953bb968731212dc37af87cb75a885dc48e0615bd6a303577c4dc4b/requests-2.28.0.tar.gz
 Summary  : Python HTTP for Humans.
@@ -82,13 +82,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1654897612
+export SOURCE_DATE_EPOCH=1655756502
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
 export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 export MAKEFLAGS=%{?_smp_mflags}
+pypi-dep-fix.py . charset-normalizer
 python3 setup.py build
 
 %check
@@ -102,6 +103,7 @@ export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
+pypi-dep-fix.py . charset-normalizer
 python3 setup.py build
 
 popd
@@ -111,6 +113,7 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pypi-requests
 cp %{_builddir}/requests-2.28.0/LICENSE %{buildroot}/usr/share/package-licenses/pypi-requests/57aed0b0f74e63f6b85cce11bce29ba1710b422b
 python3 -tt setup.py build  install --root=%{buildroot}
+pypi-dep-fix.py %{buildroot} charset-normalizer
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
@@ -122,7 +125,7 @@ export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
 python3 -tt setup.py build install --root=%{buildroot}-v3
 popd
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
