@@ -4,7 +4,7 @@
 #
 Name     : pypi-requests
 Version  : 2.28.1
-Release  : 120
+Release  : 121
 URL      : https://files.pythonhosted.org/packages/a5/61/a867851fd5ab77277495a8709ddda0861b28163c4613b011bc00228cc724/requests-2.28.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/a5/61/a867851fd5ab77277495a8709ddda0861b28163c4613b011bc00228cc724/requests-2.28.1.tar.gz
 Summary  : Python HTTP for Humans.
@@ -20,6 +20,10 @@ BuildRequires : pypi(certifi)
 BuildRequires : pypi(charset_normalizer)
 BuildRequires : pypi(idna)
 BuildRequires : pypi(urllib3)
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
+Patch1: backports-Allow-charset-normalizer-2-and-4-6261.patch
 
 %description
 # Requests
@@ -73,6 +77,7 @@ python3 components for the pypi-requests package.
 %prep
 %setup -q -n requests-2.28.1
 cd %{_builddir}/requests-2.28.1
+%patch1 -p1
 pushd ..
 cp -a requests-2.28.1 buildavx2
 popd
@@ -82,38 +87,37 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656543188
+export SOURCE_DATE_EPOCH=1672771027
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$FFLAGS -fno-lto "
-export FFLAGS="$FFLAGS -fno-lto "
-export CXXFLAGS="$CXXFLAGS -fno-lto "
+export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
 export MAKEFLAGS=%{?_smp_mflags}
-pypi-dep-fix.py . charset_normalizer
 python3 setup.py build
 
-%check
-export http_proxy=http://127.0.0.1:9/
-export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost,127.0.0.1,0.0.0.0
-python test_requests.py || :
 pushd ../buildavx2/
 export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
-pypi-dep-fix.py . charset_normalizer
 python3 setup.py build
 
 popd
+%check
+export LANG=C.UTF-8
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+python test_requests.py || :
+
 %install
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pypi-requests
-cp %{_builddir}/requests-2.28.1/LICENSE %{buildroot}/usr/share/package-licenses/pypi-requests/57aed0b0f74e63f6b85cce11bce29ba1710b422b
+cp %{_builddir}/requests-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/pypi-requests/57aed0b0f74e63f6b85cce11bce29ba1710b422b || :
 python3 -tt setup.py build  install --root=%{buildroot}
-pypi-dep-fix.py %{buildroot} charset_normalizer
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
