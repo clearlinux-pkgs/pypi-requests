@@ -1,5 +1,5 @@
 PKG_NAME := pypi-requests
-URL = https://files.pythonhosted.org/packages/a5/61/a867851fd5ab77277495a8709ddda0861b28163c4613b011bc00228cc724/requests-2.28.1.tar.gz
+URL = https://files.pythonhosted.org/packages/9d/be/10918a2eac4ae9f02f6cfe6414b7a155ccd8f7f9d4380d62fd5b955065c3/requests-2.31.0.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
