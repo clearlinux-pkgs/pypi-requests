@@ -1,0 +1,30 @@
+From 779f36e208cef65a219677f8b3d12c3975a4c764 Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Tue, 9 Jul 2024 12:58:01 -0700
+Subject: [PATCH] Add clear cert path
+
+This is intended to be patched by the distro so says the comment for
+the file.
+
+Signed-off-by: William Douglas <william.douglas@intel.com>
+---
+ src/requests/certs.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/requests/certs.py b/src/requests/certs.py
+index be422c3..5e51719 100644
+--- a/src/requests/certs.py
++++ b/src/requests/certs.py
+@@ -11,7 +11,8 @@ If you are packaging Requests, e.g., for a Linux distribution or a managed
+ environment, you can change the definition of where() to return a separately
+ packaged CA bundle.
+ """
+-from certifi import where
++def where():
++    return '/etc/ssl/certs/ca-certificates.crt'
+ 
+ if __name__ == "__main__":
+     print(where())
+-- 
+2.45.1
+
